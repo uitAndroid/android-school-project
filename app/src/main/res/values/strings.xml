@@ -6,6 +6,9 @@
     <string name="step">step</string>
     <string name="exercise">Exercise</string>
     <string name="steps">Steps</string>
+    <string name="fullbody">Full Body</string>
+    <string name="legbody">Leg Body</string>
+    <string name="upperbody">Upper Body</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

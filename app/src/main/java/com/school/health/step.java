@@ -13,7 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import android.widget.Toast;
+
+import java.util.Vector;
 
 
 /**
@@ -25,6 +29,8 @@ public class step extends Fragment implements SensorEventListener {
     TextView count;
     TextView cal;
     TextView d;
+    String weight = "";
+    String pace = "";
 
     public step() {
         // Required empty public constructor
@@ -42,7 +48,7 @@ public class step extends Fragment implements SensorEventListener {
         d = (TextView)getView().findViewById(R.id.distance);
         count = (TextView)getView().findViewById(R.id.count);
         sm = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-
+        user.GetData(weight,pace);
     }
 
     @Override
@@ -69,9 +75,18 @@ public class step extends Fragment implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if(running)
-        {
+        if(running) {
+            int numSteps = 0;
+            int p = 0;
+            int w = 0;
             count.setText(String.valueOf(event.values[0]));
+            numSteps = Integer.parseInt(count.getText().toString().trim());
+            p = Integer.parseInt(pace) / 100000;
+            w = Integer.parseInt(weight);
+            double numCal = numSteps * p * w * 1.036;
+            float distance = numSteps * p;
+            cal.setText("" + numCal);
+            d.setText("" + distance);
         }
     }
 

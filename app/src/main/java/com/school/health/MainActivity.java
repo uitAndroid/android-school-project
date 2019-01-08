@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout frame;
     private step stepFragment;
     private exercise exerciseFragment;
+    private user userFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navStep:
                     setFragment(stepFragment);
+                    return true;
+                case R.id.navUser:
+                    setFragment(userFragment);
                     return true;
             }
             return false;
@@ -47,8 +51,9 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         frame = (FrameLayout) findViewById(R.id.frame);
         stepFragment = new step();
+        userFragment = new user();
         exerciseFragment = new exercise();
-        setFragment(exerciseFragment);
+        setFragment(userFragment);
     }
 
 }
