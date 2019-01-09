@@ -15,24 +15,25 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import android.widget.Toast;
 import java.io.FileOutputStream;
 import java.util.Vector;
 
 public class user extends Fragment {
     public user() {
     }
-    public static final  String File_Name1 = "UserData.txt";
+    public static final  String FILE_USER = "UserData.txt";
     private static EditText userWeight;
     private static EditText userFlong;
-    Button save;
+    private Button save;
 
-    public static void save(View v, Context fileContext,String data) {
+    public static void save( Context fileContext,String File_Name1,String data) {
         String text = data;
         FileOutputStream fos = null;
         try {
             fos = fileContext.openFileOutput(File_Name1, fileContext.MODE_PRIVATE);
             fos .write(text.getBytes());
+            Toast.makeText(fileContext,"Saved to " + fileContext.getFilesDir() + "/" + File_Name1,Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -48,9 +49,9 @@ public class user extends Fragment {
         }
     }
 
-    public static void load(View v,Context fileContext,Vector<String> output) {
+    public static String load(Context fileContext,String File_Name1) {
         FileInputStream fis =  null;
-
+        String output = "";
         try {
             fis = fileContext.openFileInput(File_Name1);
             InputStreamReader isr = new InputStreamReader(fis);
@@ -62,7 +63,8 @@ public class user extends Fragment {
             {
                 sb.append(text).append("\n");
             }
-            output.add(sb.toString());
+            output = sb.toString();
+            Toast.makeText(fileContext,"loaded !",Toast.LENGTH_LONG);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -76,6 +78,7 @@ public class user extends Fragment {
                 }
             }
         }
+        return output;
     }
 
     @Override
@@ -96,14 +99,24 @@ public class user extends Fragment {
         userWeight = (EditText)getView().findViewById(R.id.userWeight);
         userFlong = (EditText)getView().findViewById(R.id.userFlong);
         save = (Button)getView().findViewById(R.id.save_btn);
+        String data = "";
+        data = load(getActivity(),FILE_USER);
+        if(!data.equals(""))
+        {
+            String[] splitedData = data.split(",");
+            userWeight.setText(splitedData[0]);
+            userFlong.setText(splitedData[1]);
+        }
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(userWeight.getText().toString().trim().equals("") || userFlong.getText().toString().trim().equals(""))
+                if(userWeight.getText().toString().trim().equals("") && userFlong.getText().toString().trim().equals(""))
                 {
                     userWeight.setText("60");
                     userFlong.setText("60");
                 }
+                String input = userWeight.getText().toString()+ "," + userFlong.getText().toString()+"," + java.time.LocalDate.now().toString();
+                save(getActivity(),FILE_USER,input);
             }
         });
     }
