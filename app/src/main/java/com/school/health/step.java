@@ -74,27 +74,26 @@ public class step extends Fragment implements SensorEventListener {
             String[] splitedData = dataUser.split(",");
             dateUser = splitedData[2];
         }
-        if(java.time.LocalDate.now().toString().equals(dateUser)){
-            dataUser =  dataUser.replaceFirst("dateUser",java.time.LocalDate.now().toString());
+        if(!java.time.LocalDate.now().toString().equals(dateUser)){
+            dataUser =  dataUser.replaceFirst(dateUser,java.time.LocalDate.now().toString());
             user.save(getActivity(),user.FILE_USER,dataUser);
             stepCount = 0;
         }
         String runData = "";
         runData = user.load(getActivity(),FILE_RUN_DATA);
         List<DataEntry> data = new ArrayList<>();
-        if(!runData.equals("")) {
+        /*if(!runData.equals("")) {
             String [] dataSplited = runData.split(",");
             for(int i = 0; i < dataSplited.length-1;i++) {
                 data.add(new ValueDataEntry(dataSplited[i],Integer.parseInt(dataSplited[i+1])));
             }
         }
-        else {
-            // demo data
-            data.add(new ValueDataEntry("2018-01-06", 10000));
+        */
+        //demo data
+        Pie pie = AnyChart.pie();
+    data.add(new ValueDataEntry("2018-01-06", 10000));
             data.add(new ValueDataEntry("2018-01-07", 12000));
             data.add(new ValueDataEntry("2018-01-08", 18000));
-        }
-        Pie pie = AnyChart.pie();
         pie.data(data);
 
         AnyChartView anyChartView = (AnyChartView) getActivity().findViewById(R.id.any_chart_view);
